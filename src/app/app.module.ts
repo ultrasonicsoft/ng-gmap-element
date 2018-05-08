@@ -1,18 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
 
-
-import { AppComponent } from './app.component';
+import { GmapComponent } from './gmap/gmap.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    GmapComponent
   ],
   imports: [
     BrowserModule
   ],
+  entryComponents:[
+    GmapComponent
+  ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: []
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(private injector: Injector) {}
+
+  ngDoBootstrap() {
+    const el = createCustomElement(GmapComponent, { injector: this.injector });
+    
+    customElements.define('ng-google-map', el);
+   }
+ }
